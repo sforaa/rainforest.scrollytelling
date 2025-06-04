@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+  <meta charset="UTF-8">
+  <title>The Disappearance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+   /* ===========================================
+   0. EXTERNAL FONT IMPORT
+   (Loads custom font from Typekit)
+=========================================== */
+@import url("https://use.typekit.net/irw5lfh.css");
+
+/* ===========================================
+   1. GLOBAL & BASE STYLES
+   (Set background, color, font, and reset margins)
+=========================================== */
+html, body {
+  background: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+/* Custom cursor using a tree emoji */
+body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="36" width="36"><text y="28" font-size="32">🌳</text></svg>') 18 30, auto;
+}
+
+/* ===========================================
+   2. GENERAL LAYOUT UTILS
+   (Reusable centering & container classes)
+=========================================== */
+.center-content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  text-align: center;
+  user-select: none;
+}
+
+/* ===========================================
+   3. TYPOGRAPHY & HEADINGS
+   (Big titles, subtitles, and font tweaks)
+=========================================== */
+.main-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 38px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.subtitle {
+  font-size: 2.1rem;
+  color: #E51901;
+  min-height: 2.2em;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.subtitle.visible {
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
+/* ===========================================
+   4. SCROLL DOWN INDICATOR
+   (Animated arrow and scroll text, fixed bottom)
+=========================================== */
+.scroll-down {
+  position: fixed;
+  left: 50%;
+  bottom: 44px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInUp 1s 4.4s forwards;
+  z-index: 20;
+}
+.arrow {
+  font-size: 2.4rem;
+  color: #fff;
+  animation: bounce 1.3s infinite;
+}
+.scroll-text {
+  font-size: 1.1rem;
+  color: #fff;
+  font-family: "forma-djr-arabic-micro", sans-serif;
+  margin-top: 3px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ===========================================
+   5. HERO SECTION (FULL PAGE VISUAL)
+   (Background image + overlay text)
+=========================================== */
+.hero-image-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+.hero-image-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+  user-select: none;
+  pointer-events: none;
+}
+.hero-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  pointer-events: none;
+}
+.hero-text-top {
+  margin-top: 22vh;
+  width: 100vw;
+  max-width: 640px;
+  color: #fff;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-size: 2.6rem;
+  font-weight: 400;
+  line-height: 1.13;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.34);
+  text-align: center;
+}
+.hero-text-top .bold { font-weight: 700; }
+
+/* Responsive adjustments for HERO section */
+@media (max-width: 1000px) {
+  .hero-text-top { font-size: 1.5rem; margin-top: 12vw; max-width: 92vw; }
+}
+@media (max-width: 600px) {
+  .hero-text-top { font-size: 1rem; margin-top: 16vw; max-width: 98vw; }
+}
+
+/* ===========================================
+   6. ANIMATIONS
+   (Arrow bounce + fade in up)
+=========================================== */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(10px);}
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translate(-50%, 40px);}
+  to { opacity: 1; transform: translate(-50%, 0);}
+}
+
+/* ===========================================
+   7. SCROLLY ANIMATION SECTIONS
+   (Section blocks with slide-in text color changes)
+=========================================== */
+.scrolly-section {
+  width: 100vw;
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.scrolly-text {
+  font-size: 2.3rem;
+  color: #fff;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-weight: 400;
+  max-width: 800px;
+  line-height: 1.18;
+  opacity: 0;
+  transform: translateX(-80px);
+  will-change: opacity, transform;
+}
+/* Different colors for different scrolly sections */
+.scrolly-section:nth-child(2) .scrolly-text { color: #dd00ee; }
+.scrolly-section:nth-child(3) .scrolly-text { color: #9911ff; }
+.scrolly-section:nth-child(4) .scrolly-text { color: #38e54d; }
+
+/* ===========================================
+   8. PAGE TITLE HEADER
+   (Sticky/absolute page header, top left)
+=========================================== */
+.page-title-header {
+  width: 100vw;
+  padding-left: 50px;
+  padding-top: 36px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 40;
+  pointer-events: none; /* Don't block clicks */
+}
+.page-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+  text-align: left;
+  margin: 0;
+  line-height: 1.18;
+  text-transform: none;
+}
+.page-title .highlight {
+  font-size: 2.6rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+/* Responsive page title */
+@media (max-width: 700px) {
+  .page-title-header { padding-left: 7vw; padding-top: 20px; }
+  .page-title { font-size: 1.3rem; }
+  .page-title .highlight { font-size: 1.4rem; }
+}
+
+/* ===========================================
+   9. RAINFOREST BENEFITS SECTION
+   (Cards showing benefits, flex layout)
+=========================================== */
+.rainforest-benefits-section {
+  background: #000000;
+  color: #111;
+  min-height: 100vh;
+  padding: 64px 0 60px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rainforest-benefits-title {
+  color: #E51901;
+  font-family: normal normal normal 68px/95px Forma DJR Arabic Banner;
+  font-weight: 400;
+  font-size: 68px;
+  letter-spacing: 0.03em;
+  margin-bottom: 2.8rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.benefits-cards {
+  display: flex;
+  gap: 4vw;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1350px;
+  margin-bottom: 2.8rem;
+}
+.benefit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 330px;
+  max-width: 90vw;
+}
+.benefit-video {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 24px rgba(0,0,0,0.10);
+  background: #ccc;
+  margin-bottom: 1.7rem;
+  border: none;
+}
+.benefit-title {
+  color: #E51901;
+  font-size: 1.45rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+}
+.benefit-desc {
+  color: #707070;
+  font-size: 1.0rem;
+  font-family: normal normal normal 17px/20px Forma DJR Arabic Banner;
+  font-weight: 50;
+  line-height: 1.38;
+  text-align: center;
+  max-width: 260px;
+}
+/* Responsive for cards */
+@media (max-width: 1000px) {
+  .benefits-cards {
+    flex-direction: column;
+    gap: 3.2rem;
+    align-items: center;
+  }
+}
+
+/* ===========================================
+   10. ANIMAL APPEAR SECTION
+   (Absolute positioned animals, background, and text)
+=========================================== */
+.animal-appear-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #E51901;
+}
+.animal-bg {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+}
+.animal {
+  position: absolute;
+  opacity: 0;
+  transform: scale(1.15) translateY(60px);
+  /* Animation triggered by JS for inView! */
+  transition: opacity 0.65s cubic-bezier(.39,.67,.51,1.27), transform 0.65s cubic-bezier(.39,.67,.51,1.27);
+}
+/* Individual animal positions (customize for your layout) */
+.animal-gorilla   { left: 6vw;   bottom: 8vh; width: 18vw; }
+.animal-hippo     { left: 26vw;  bottom: 24vh; width: 13vw; }
+.animal-zebra     { left: 60vw;  bottom: 20vh; width: 11vw; }
+.animal-bird1     { left: 6vw;   top: 14vh;   width: 16vw; }
+.animal-buffalo   { right: 10vw; bottom: 7vh; width: 18vw; }
+.animal-antelope  { right: 5vw;  bottom: 30vh; width: 10vw; }
+.animal-text {
+  position: absolute;
+  top: 22vh; left: 0; width: 100vw;
+  color: #fff;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1.14;
+  text-align: center;
+  z-index: 2;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.34);
+}
+.animal-text b { font-weight: 700; }
+/* Responsive animal/text sizes */
+@media (max-width: 900px) {
+  .animal-text { font-size: 1.3rem; top: 10vh;}
+  .animal { width: 25vw !important;}
+}
+.animal-text .medium { font-size: 40px; font-weight: 700; }
+.animal-text .small { font-size: 24px; }
+.animal-text .big { font-size: 60px; font-weight: 700; }
+
+/* ===========================================
+   11. MUTE BUTTON (TOP-RIGHT)
+   (Fixed, round button for audio control)
+=========================================== */
+.mute-btn {
+  position: fixed;
+  top: 28px;
+  right: 32px;
+  z-index: 10000;
+  background: rgba(10,10,10,0.7);
+  border: none;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  font-size: 2.2rem;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0005;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s;
+}
+.mute-btn:hover { background: #E51901; color: #fff; }
+
+/* ===========================================
+   12. "WHY IT MATTERS" SECTION
+   (Big headline, centered)
+=========================================== */
+.why-matter-section {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-matter-container {
+  text-align: center;
+  color: #E51901;
+}
+.why-matter-top {
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(.39,.67,.51,1.27);
+}
+.why-matter-bottom {
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-size: 3.3rem;
+  font-weight: 400;
+  margin-top: 0.2em;
+  opacity: 0;
+  transition: opacity 1.1s cubic-bezier(.39,.67,.51,1.27), transform 0.95s cubic-bezier(.39,.67,.51,1.27);
+  letter-spacing: -1px;
+  transform: translateY(22px);
+}
+/* Responsive for "why it matters" */
+@media (max-width: 800px) {
+  .why-matter-top { font-size: 1.4rem; }
+  .why-matter-bottom { font-size: 1.7rem; }
+}
+
+.congo-globe-section {
+  background: #000;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.globe-layout {
+  width: 100vw;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3vw;
+  padding: 5vw 2vw 4vw 2vw;
+}
+
+.globe-title {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.globe-title-main {
+  font-size: 2.05rem;
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  line-height: 1.13;
+  letter-spacing: 0.00em;
+  margin-top: 0.7em;
+}
+.globe-title-accent {
+  color: #fff;
+  font-weight: 700;
+  font-size: 2.1rem;
+  display: block;
+  margin-top: 0.16em;
+  letter-spacing: 0.01em;
+  background: linear-gradient(90deg, #fff 80%, #E51901 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.globe-image-holder {
+  flex: 1 1 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 280px;
+  min-height: 280px;
+}
+.globe-canvas {
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  box-shadow: 0 0 34px 5px #000c, 0 0 0px 4px #fff1;
+  overflow: hidden;
+  background: #181818;
+  margin: 0 12px;
+}
+@media (max-width: 1100px) {
+  .globe-layout { flex-direction: column; align-items: center; gap: 1.7em;}
+  .globe-title, .globe-image-holder, .globe-text { justify-content: center; align-items: center; text-align: center;}
+}
+
+.globe-text {
+  flex: 1 1 320px;
+  color: #fff;
+  font-size: 1.08rem;
+  line-height: 1.45;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  text-align: left;
+  margin-top: 1.5em;
+  margin-bottom: 0;
+  max-width: 340px;
+}
+.globe-text .highlight-red {
+  color: #E51901;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+
+@media (max-width: 1100px) {
+  .globe-text { max-width: 90vw; text-align: center; margin-top: 1.3em;}
+  .globe-title-main { text-align: center; }
+}
+
+.rainforest-silence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* Center horizontally */
+  justify-content: flex-start; /* Align to the top vertically */
+  min-height: 60vh;            /* Or 100vh if you want full screen */
+  background: #000;
+  padding: 3rem 1rem 2rem 1rem; /* Top padding can be increased if needed */
+}
+
+
+.rainforest-lungs {
+  width: 280px;
+  max-width: 90vw;
+  margin-bottom: 2rem;
+}
+
+.rainforest-message {
+  color: #fff;
+  font-family: 'Satoshi', Arial, sans-serif; /* or your project font */
+  font-size: 1.1rem;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 680px;
+}
+
+
+
+
+
+  </style>
+
+
+
+
+</head>
+
+  <!-- section intro -->
+
+<body>
+
+  <button class="mute-btn" id="muteBtn" title="Mute/Unmute">
+  🔇
+</button>
+
+  <div class="center-content">
+    <div class="main-title"></div>
+    <div id="subtitle" class="subtitle"></div>
+  </div>
+  <div class="scroll-down" id="scrollDown">
+    <div class="arrow">⌄</div>
+    <div class="scroll-text">Scroll down</div>
+  </div>
+
+
+
+  <!-- GLOBE SECTION -->
+<section class="congo-globe-section">
+  <div class="globe-layout">
+    <!-- LINKERKANT: TITEL -->
+    <div class="globe-title">
+      <div class="globe-title-main">
+        Congo basin has been renamed<br>
+        <span class="globe-title-accent">
+          the &laquo; second lung of the planet &raquo;
+        </span>
+      </div>
+    </div>
+    <!-- MIDDEN: GLOBE -->
+    <div class="globe-image-holder">
+      <div class="globe-canvas" id="rainforest-globe"></div>
+    </div>
+    <!-- RECHTS: TEKST -->
+    <div class="globe-text">
+      After the Amazon rainforest, the African rainforest is the <span class="highlight-red">second largest on Earth</span>.
+      Spanning across Central Africa and stretching over six countries, it covers
+      <span class="highlight-red">3.3 million km²</span> (about the size of India or almost ten times the size of Germany). Almost 2/3 of this vast forest lies within the Democratic Republic of the Congo.
+    </div>
+  </div>
+</section>
+
+
+<section id="section1" class="audio-section">
+  <audio src="videos/Relax 1 Minute - Rainforest Sounds, Waterfall and Rain.mp3" preload="auto" class="section-audio"></audio>
+  <!-- ...content... -->
+</section>
+
+  <!-- the rainforest + 3 videos -->
+<section class="rainforest-benefits-section">
+  <div class="rainforest-benefits-title">
+    The rainforest...
+  </div>
+  <div class="benefits-cards">
+    <div class="benefit-card">
+      <video class="benefit-video" src="videos/People.mp4" autoplay loop muted playsinline></video>
+      <div class="benefit-title">protects the ecosystem</div>
+      <div class="benefit-desc">
+        Provides essential ecosystem services like oxygen production, water purification, and support for local communities, who rely on them for food, fuel, and other resources.
+      </div>
+    </div>
+    <div class="benefit-card">
+      <video class="benefit-video" src="videos/carbon.mp4" autoplay loop muted playsinline></video>
+      <div class="benefit-title">stores carbon</div>
+      <div class="benefit-desc">
+        Acts as carbon sinks, absorbing and storing significant amounts of carbon dioxide, which helps mitigate climate change and regulate global temperatures.
+      </div>
+    </div>
+    <div class="benefit-card">
+      <video class="benefit-video" src="videos/biodiversity.mp4" autoplay loop muted playsinline></video>
+      <div class="benefit-title">protects biodiversity</div>
+      <div class="benefit-desc">
+        Home to a vast array of plant and animal species, including many endangered ones like the forest elephant and various ape species.
+      </div>
+    </div>
+  </div>
+</section>
+
+ <!-- ANIMALS SECTION-->
+ <section class="animal-appear-section">
+  <img src="images/tree.png" alt="Rainforest tree" class="animal-bg">
+  <img src="images/animals1.svg" class="animal animal-gorilla" alt="Gorilla">
+  <img src="images/animals2.svg" class="animal animal-hippo" alt="Hippo">
+  <img src="images/animals3.svg" class="animal animal-zebra" alt="Zebra">
+  <img src="images/animals5.svg" class="animal animal-bird1" alt="Bird">
+  <img src="images/animals4.svg" class="animal animal-buffalo" alt="Buffalo">
+  <img src="images/animals6.svg" class="animal animal-antelope" alt="Antelope">
+  <!-- Voeg je andere dieren toe -->
+  <div class="animal-text">
+  The rainforest is <b><span class="medium">not</span></b> scenery.</span><br>
+  It’s a <b><span class="big">living system</span></b>
+</div>
+</section>
+
+
+ <!-- NEED THE RAIN FOREST-->
+<section class="why-matter-section">
+  <div class="why-matter-container">
+    <div class="why-matter-top" id="whyMatterTop">But why do you, we need<span class="dots">…</span></div>
+    <div class="why-matter-bottom" id="whyMatterBottom">this congolian rainforest</div>
+  </div>
+</section>
+
+
+ <!-- lungs -->
+
+<section class="rainforest-silence">
+  <img src="images/lungtree.svg" alt="Red lungs illustration" class="rainforest-lungs">
+  <p class="rainforest-message">
+    The rainforest works silently for you. It produces oxygen, stabilises the climate, provides resources for medicine and keeps global ecosystems in balance.<br>
+    It affects your food, your health, your environment.
+  </p>
+</section>
+
+
+
+
+
+
+
+ <!-- ========== SCRIPTS ========== -->
+
+<!-- 1. MOTION: Scrolly-text animaties, subtitles, globe functionaliteit -->
+<!-- MOTION (voor scrolly animatie) -->
+<script type="module">
+import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@12.15.0/+esm";
+// ...hier je motion code...
+</script>
+
+<!-- MOTION (voor scrolly animatie) -->
+<script type="module">
+import { animate, inView } from "https://cdn.jsdelivr.net/npm/motion@12.15.0/+esm";
+// ...hier je motion code...
+</script>
+
+<!-- GLOBE GL (GEEN MODULE!) -->
+<script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    function startGlobe() {
+      const globeDiv = document.getElementById('rainforest-globe');
+      if (typeof Globe === 'function' && globeDiv) {
+        Globe()
+          (globeDiv)
+          .globeImageUrl('images/map.png')
+          .backgroundColor('#000')
+          .pointOfView({lat:0, lng:20, altitude:2.2});
+      } else {
+        setTimeout(startGlobe, 100); // Wacht tot Globe geladen is!
+      }
+    }
+    startGlobe();
+  });
+</script>
+
+<!-- 2. ANIMAL SECTION: dieren laten animeren als je op die sectie scrolt -->
+<script>
+  // === [2] ANIMAL SECTION APPEAR ANIMATION ===
+  document.addEventListener("DOMContentLoaded", function() {
+    const animals = document.querySelectorAll('.animal');
+    const section = document.querySelector('.animal-appear-section');
+
+    animals.forEach(animal => {
+      animal.style.opacity = 0;
+      animal.style.transform = "scale(1.12) translateY(60px)";
+      animal.style.transition = "opacity 0.65s cubic-bezier(.39,.67,.51,1.27), transform 0.65s cubic-bezier(.39,.67,.51,1.27)";
+    });
+
+    let triggered = false;
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !triggered) {
+          animals.forEach((el, i) => {
+            setTimeout(() => {
+              el.style.opacity = 1;
+              el.style.transform = "scale(1) translateY(0)";
+            }, 170 + i * 200);
+          });
+          triggered = true;
+        } else if (!entry.isIntersecting) {
+          animals.forEach((el) => {
+            el.style.opacity = 0;
+            el.style.transform = "scale(1.12) translateY(60px)";
+          });
+          triggered = false;
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  });
+</script>
+
+<!-- 3. AUDIO: sectie-geluid automatisch bij scroll, met mute/unmute knop -->
+<script>
+  // === [3] AUDIO PER SECTION: autoplay bij scroll + mute/unmute ===
+  document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll('.audio-section');
+    const muteBtn = document.getElementById('muteBtn');
+    let muted = true;
+
+    // Zet alle audios standaard op muted & zacht volume
+    function setAllMuted(muteState) {
+      document.querySelectorAll('audio').forEach(a => { 
+        a.muted = muteState;
+        a.volume = muteState ? 0.01 : 0.08; // Zet zachter als nodig
+      });
+      muteBtn.textContent = muteState ? '🔇' : '🔊';
+    }
+    setAllMuted(muted);
+
+    // Mute/unmute button
+    muteBtn.addEventListener('click', function() {
+      muted = !muted;
+      setAllMuted(muted);
+      if (!muted) playCurrentAudio();
+      else pauseAllAudios();
+    });
+
+    function pauseAllAudios() {
+      document.querySelectorAll('audio').forEach(a => { a.pause(); a.currentTime = 0; });
+    }
+
+    function playCurrentAudio() {
+      sections.forEach(section => {
+        const audio = section.querySelector('audio');
+        if (section.classList.contains('active') && audio && !muted) {
+          try { audio.currentTime = 0; audio.play(); } catch(e){}
+        } else if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+    }
+
+    // Observer voor audio-secties
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const section = entry.target;
+        if (entry.isIntersecting) {
+          sections.forEach(s => s.classList.remove('active'));
+          section.classList.add('active');
+          playCurrentAudio();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Safari/iOS fix: play audio after user click
+    document.body.addEventListener("click", function() {
+      if (!muted) playCurrentAudio();
+    }, { once: true });
+  });
+</script>
+
+<!-- 4. WHY MATTER SECTION: tekst-animatie bij in beeld komen -->
+<script>
+  // === [4] WHY MATTER SECTION ANIMATION ===
+  document.addEventListener("DOMContentLoaded", function() {
+    const section = document.querySelector('.why-matter-section');
+    const top = document.getElementById('whyMatterTop');
+    const bottom = document.getElementById('whyMatterBottom');
+    let animated = false;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animated) {
+          setTimeout(() => { top.style.opacity = 1; }, 350);
+          setTimeout(() => {
+            bottom.style.opacity = 1;
+            bottom.style.transform = "translateY(0)";
+          }, 1900);
+          animated = true;
+        }
+        // // Als je animatie wilt resetten als je wegscrolt, uncomment dit:
+        // else if (!entry.isIntersecting) {
+        //   top.style.opacity = 0;
+        //   bottom.style.opacity = 0;
+        //   bottom.style.transform = "translateY(22px)";
+        //   animated = false;
+        // }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(section);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "forma-djr-arabic-text", sans-serif;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+h1 {
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-weight: 700;
+  color: #E51901;
+  font-size: 4rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+  /* eventueel achtergrond met transparantie: */
+  /* background: rgba(0,0,0,0.3); */
+}
+
+/* Extra: andere typografische stijlen voor titels, tekst etc. */
+.bold {
+  font-weight: 700;
+}
+.deck {
+  font-family: "forma-djr-arabic-deck", sans-serif;
+}
+.display {
+  font-family: "forma-djr-arabic-display", sans-serif;
+}
+.micro {
+  font-family: "forma-djr-arabic-micro", sans-serif;
+}
+
+
+.mute-btn {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+.mute-btn:hover {
+  background: #E51901;
+}
+
+
+.continue-btn {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #E51901;
+  font-family: "forma-djr-arabic-banner", sans-serif;
+  font-weight: 700;
+  font-size: 2.7rem;
+  cursor: pointer;
+  transition: font-size 0.18s cubic-bezier(.4,1.6,.6,1), color 0.18s;
+  outline: none;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  opacity: 1;
+  box-shadow: none;
+}
+
+.continue-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.continue-btn:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.continue-btn:hover,
+.continue-btn:focus {
+  font-size: 3.2rem;
+  color: #fff;
+}
+
+.rainforest-section {
+  margin: 0 auto;
+  padding-top: 120vh; /* zorgt dat je pas na scroll het ziet, evt aanpassen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 80vh;
+}
+
+.rainforest-img {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  margin-bottom: 32px;
+  border-radius: 18px; /* optioneel: afgeronde hoeken voor moderne look */
+  box-shadow: 0 4px 28px rgba(0,0,0,0.20);
+  object-fit: contain;
+  background: #222; /* fallback bij langzaam laden */
+}
+
+.rainforest-text {
+  color: #fff;
+  font-family: "forma-djr-arabic-text", sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 560px;
+}
+
+
