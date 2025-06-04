@@ -7,32 +7,28 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     @import url("https://use.typekit.net/irw5lfh.css");
-  </style>
-</head>
-<style>
     body {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="36" width="36"><text y="28" font-size="32">🌳</text></svg>') 18 30, auto;
     }
   </style>
+</head>
 <body>
 
-  <video 
-    id="introVideo"
-    src="intro.congo.mp4"
-    autoplay
-    muted
-    playsinline
-    style="width:100vw; height:100vh; object-fit:cover; position:fixed; top:0; left:0; z-index:-1;">
-    Your browser does not support the video tag.
-  </video>
+  <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; overflow:hidden;">
+    <iframe 
+      id="introVideo"
+      src="https://www.youtube.com/embed/jyiWdaeOwhM?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=jyiWdaeOwhM"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      style="width:100vw; height:100vh; object-fit:cover; pointer-events:none;">
+    </iframe>
+  </div>
 
   <div class="overlay">
     <button id="muteBtn" class="mute-btn" aria-label="Toggle sound">🔇</button>
     <button id="continueBtn" class="continue-btn hidden">Click to start</button>
-
   </div>
-
-  
 
   <script src="script.js"></script>
 </body>
