@@ -2,34 +2,162 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Wild Congo Intro</title>
+  <title>Wild Congo Scrolly</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts en stylesheets -->
   <link rel="stylesheet" href="styles.css">
   <style>
     @import url("https://use.typekit.net/irw5lfh.css");
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      background: #000;
+      font-family: "forma-djr-arabic-banner", sans-serif;
+    }
     body {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="36" width="36"><text y="28" font-size="32">🌳</text></svg>') 18 30, auto;
+      overflow: hidden;
     }
+    /* Intro-video overlay */
+    #introOverlay {
+      position: fixed;
+      z-index: 9999;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.8s;
+    }
+    #introOverlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s;
+    }
+    #introVideo {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0;
+      z-index: -1;
+      background: #000;
+    }
+    .intro-controls {
+      position: relative;
+      z-index: 2;
+      width: 100vw;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+    .mute-btn {
+      margin: 36px 48px 0 0;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(20,20,20,0.7);
+      color: #fff;
+      border: none;
+      font-size: 2.3rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0006;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      transition: background 0.2s;
+    }
+    .mute-btn:hover { background: #E51901; }
+    .continue-btn {
+      background: #E51901;
+      color: #fff;
+      border: none;
+      border-radius: 36px;
+      font-size: 1.24rem;
+      padding: 20px 58px;
+      font-family: inherit;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: 0 2px 10px #0009;
+      position: relative;
+      margin: 0 auto;
+      margin-top: 62vh;
+      display: none;
+    }
+    .continue-btn.show { display: block; }
   </style>
 </head>
 <body>
 
-  <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; overflow:hidden;">
-    <iframe 
+  <!-- INTRO OVERLAY -->
+  <div id="introOverlay">
+    <video 
       id="introVideo"
-      src="https://www.youtube.com/embed/jyiWdaeOwhM?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=jyiWdaeOwhM"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen
-      style="width:100vw; height:100vh; object-fit:cover; pointer-events:none;">
-    </iframe>
+      src="https://www.w3schools.com/html/mov_bbb.mp4"  <!-- <---- VERVANG DIT DOOR JE EIGEN MP4 LINK! -->
+      autoplay
+      muted
+      playsinline
+      loop
+      poster="fallback.jpg">
+      Je browser ondersteunt deze video niet.
+    </video>
+    <div class="intro-controls">
+      <button id="muteBtn" class="mute-btn" aria-label="Geluid aan/uit">🔇</button>
+    </div>
+    <button id="continueBtn" class="continue-btn">Klik om verder te gaan</button>
   </div>
 
-  <div class="overlay">
-    <button id="muteBtn" class="mute-btn" aria-label="Toggle sound">🔇</button>
-    <button id="continueBtn" class="continue-btn hidden">Click to start</button>
-  </div>
+  <!-- JOUW GEHELE SCROLLY SITE ONDER DIT BLIJFT PRECIES HETZELFDE! -->
+  <!-- ... -->
+  <!-- ... JOUW HELE HTML (alles wat je had voor de globe, scrolly, tekst enz) ... -->
+  <!-- ... -->
 
-  <script src="script.js"></script>
+  <script>
+    const video = document.getElementById('introVideo');
+    const muteBtn = document.getElementById('muteBtn');
+    const continueBtn = document.getElementById('continueBtn');
+    const overlay = document.getElementById('introOverlay');
+    let interacted = false;
+
+    // Standaard muted
+    video.muted = true;
+    muteBtn.textContent = '🔇';
+
+    // Na elke klik kan geluid aan (browser-restrictie)
+    muteBtn.addEventListener('click', function() {
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 0.5;
+        video.play();
+        muteBtn.textContent = '🔊';
+      } else {
+        video.muted = true;
+        muteBtn.textContent = '🔇';
+      }
+    });
+
+    // Toon 'Verder' knop na bv. 7 seconden (of als je video eindigt)
+    setTimeout(() => {
+      continueBtn.classList.add('show');
+    }, 7000);
+
+    // Klik op verder: intro overlay fade out + weer scrollen toegestaan
+    continueBtn.addEventListener('click', function() {
+      overlay.classList.add('hidden');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        document.body.style.overflow = "auto";
+      }, 1200); // fadeout tijd
+      video.pause();
+    });
+
+    // Prevent scroll while intro zichtbaar is
+    document.body.style.overflow = "hidden";
+  </script>
+
+  <!-- LAAT DE REST VAN JE HTML EN SCRIPTS ZOALS JE HEBT! -->
+
 </body>
 </html>
